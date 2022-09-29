@@ -20,7 +20,7 @@ public interface OutboundConfigMapper {
     /**
      * @mbg.generated generated automatically, do not modify!
      */
-    int deleteByName(String name);
+    int deleteById(String id);
 
     /**
      * @mbg.generated generated automatically, do not modify!

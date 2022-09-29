@@ -4,6 +4,7 @@ package com.ssc.ssgm.fx.ifx.integration.ui.controller;
 import com.ssc.ssgm.fx.ifx.integration.api.HackthonContext;
 import com.ssc.ssgm.fx.ifx.integration.common.Response;
 import com.ssc.ssgm.fx.ifx.integration.core.config.InboundConfig;
+import com.ssc.ssgm.fx.ifx.integration.core.flow.FlowContext;
 import com.ssc.ssgm.fx.ifx.integration.curd.service.InboundConfigService;
 import com.ssc.ssgm.fx.ifx.integration.util.JsonUtil;
 
@@ -33,42 +34,38 @@ public class InboundController {
     @Autowired
     InboundConfigService inboundConfigService;
 
+    @Autowired
+    FlowContext flowContext;
+
     @ApiOperation("get_type")
     @GetMapping("/get_types")
-    public Response<List<String>> getTypes() {
+    public Response<List<KeyValue>> getTypes() {
         List<SourceInTypeEnum> typeEunmList = Arrays.asList(SourceInTypeEnum.values());
-        List<String> typeList = typeEunmList.stream().map(e ->{
-            return e.toString();
+        List<KeyValue> types = typeEunmList.stream().map(e ->{
+            KeyValue keyValue = new KeyValue();
+            keyValue.setLabel(e.toString());
+            keyValue.setName(e.toString());
+            return keyValue;
         } ).collect(Collectors.toList());
-        return Response.success(typeList);
+        return Response.success(types);
     }
 
     @ApiOperation("list")
     @GetMapping("/list")
-    public Response<java.lang.Object> list() {
+    public Response<List<InboundConfig>> list() {
         List<InboundConfig> inboundConfigList = inboundConfigService.loadAll();
-        inboundConfigList.stream().forEach(e -> {
-            HackthonContext.inboundMap.put(e.getName(), e);
-        });
+        flowContext.setInboundConfigs(inboundConfigList);
         return Response.success(inboundConfigList);
     }
 
     @ApiOperation("disable")
     @PostMapping("/disable")
-    public Response<?> disable(@RequestParam("name") String name) {
-        if (inboundConfigService.disableConfig(name) != 1) {
-            log.error("Disable config failed. No Inbound config found with Name .");
+    public Response<?> disable(@RequestParam("id") Long id) {
+        if (inboundConfigService.disableConfig(id) != 1) {
+            log.error("Disable config failed. No Inbound config found with ID {} .",id);
             return Response.fail();
         }
-        Map<String, InboundConfig> tmpMap = new HashedMap(HackthonContext.inboundMap);
-        tmpMap.forEach((key,value)->{
-            InboundConfig inboundConfig = value;
-            if (inboundConfig.getName().equals(name)) {
-                HackthonContext.inboundMap.remove(key);
-            }
-
-        });
-
+        flowContext.removeSourceInConfig(Long.toString(id));
         return Response.success();
     }
 

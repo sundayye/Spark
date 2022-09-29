@@ -37,8 +37,8 @@ public class InboundConfigService {
         return inboundConfigMapper.insert(entity);
     }
 
-    public int disableConfig(String  name){
-        return inboundConfigMapper.deleteByName(name);
+    public int disableConfig(Long id){
+        return inboundConfigMapper.deleteById(Long.toString(id));
     }
 
 }
