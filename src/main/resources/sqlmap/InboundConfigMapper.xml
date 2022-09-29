@@ -119,16 +119,16 @@
             <include refid="Example_Where_Clause" />
         </if>
     </delete>
-    <delete id="deleteByName" keyColumn="NAME" keyProperty="name" parameterType="java.lang.String">
+    <delete id="deleteById" parameterType="java.lang.String">
         <!-- @mbg.generated: generated automatically, do not modify! -->
-        delete from INBOUND_CONFIG where NAME=#{name}
+        delete from INBOUND_CONFIG where ID=#{id}
     </delete>
 
     <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.ssc.ssgm.fx.ifx.integration.curd.model.InboundConfigEntity" useGeneratedKeys="true">
         <!-- @mbg.generated: generated automatically, do not modify! -->
         insert into INBOUND_CONFIG (ID,NAME, CREATED_TIME, INBOUND_TYPE,
         PROPERTIES)
-        values (spark_seq.nextval,#{name,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{inboundType,jdbcType=VARCHAR},
+        values (#{id,jdbcType=LONG},#{name,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{inboundType,jdbcType=VARCHAR},
         #{properties,jdbcType=CLOB})
     </insert>
     <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="com.ssc.ssgm.fx.ifx.integration.curd.model.InboundConfigEntity" useGeneratedKeys="true">
