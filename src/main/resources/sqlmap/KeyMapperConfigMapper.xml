@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssc.ssgm.fx.ifx.integration.curd.mapper.KeyMapperConfigMapper">
+    <resultMap id="BaseResultMap" type="com.ssc.ssgm.fx.ifx.integration.curd.model.KeyMapperConfigEntity">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        <result column="NAME" jdbcType="VARCHAR" property="name" />
+        <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
+        <result column="KEY_MAPPER_TYPE" jdbcType="VARCHAR" property="keyMapperType" />
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.ssc.ssgm.fx.ifx.integration.curd.model.KeyMapperConfigEntity">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        <result column="ID" jdbcType="LONGVARCHAR" property="id" />
+        <result column="PROPERTIES" jdbcType="CLOB" property="properties" />
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        NAME, CREATED_TIME, KEY_MAPPER_TYPE
+    </sql>
+    <sql id="Blob_Column_List">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        ID, PROPERTIES
+    </sql>
+    <select id="selectByExampleWithBLOBs" parameterType="com.ssc.ssgm.fx.ifx.integration.curd.model.KeyMapperConfigExample" resultMap="ResultMapWithBLOBs">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        ,
+        <include refid="Blob_Column_List" />
+        from KEY_MAPPER_CONFIG
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByExample" parameterType="com.ssc.ssgm.fx.ifx.integration.curd.model.KeyMapperConfigExample" resultMap="BaseResultMap">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from KEY_MAPPER_CONFIG
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <delete id="deleteByExample" parameterType="com.ssc.ssgm.fx.ifx.integration.curd.model.KeyMapperConfigExample">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        delete from KEY_MAPPER_CONFIG
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.ssc.ssgm.fx.ifx.integration.curd.model.KeyMapperConfigEntity" useGeneratedKeys="true">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        insert into KEY_MAPPER_CONFIG (ID,NAME, CREATED_TIME, KEY_MAPPER_TYPE,
+        PROPERTIES)
+        values (#{id,jdbcType=NUMERIC},#{name,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{keyMapperType,jdbcType=VARCHAR},
+        #{properties,jdbcType=CLOB})
+    </insert>
+    <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="com.ssc.ssgm.fx.ifx.integration.curd.model.KeyMapperConfigEntity" useGeneratedKeys="true">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        insert into KEY_MAPPER_CONFIG
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                NAME,
+            </if>
+            <if test="createdTime != null">
+                CREATED_TIME,
+            </if>
+            <if test="keyMapperType != null">
+                KEY_MAPPER_TYPE,
+            </if>
+            <if test="properties != null">
+                PROPERTIES,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="createdTime != null">
+                #{createdTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="keyMapperType != null">
+                #{keyMapperType,jdbcType=VARCHAR},
+            </if>
+            <if test="properties != null">
+                #{properties,jdbcType=CLOB},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.ssc.ssgm.fx.ifx.integration.curd.model.KeyMapperConfigExample" resultType="java.lang.Long">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        select count(*) from KEY_MAPPER_CONFIG
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        update KEY_MAPPER_CONFIG
+        <set>
+            <if test="row.name != null">
+                NAME = #{row.name,jdbcType=VARCHAR},
+            </if>
+            <if test="row.createdTime != null">
+                CREATED_TIME = #{row.createdTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="row.keyMapperType != null">
+                KEY_MAPPER_TYPE = #{row.keyMapperType,jdbcType=VARCHAR},
+            </if>
+            <if test="row.id != null">
+                ID = #{row.id,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="row.properties != null">
+                PROPERTIES = #{row.properties,jdbcType=CLOB},
+            </if>
+        </set>
+        <if test="example != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExampleWithBLOBs" parameterType="map">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        update KEY_MAPPER_CONFIG
+        set NAME = #{row.name,jdbcType=VARCHAR},
+        CREATED_TIME = #{row.createdTime,jdbcType=TIMESTAMP},
+        KEY_MAPPER_TYPE = #{row.keyMapperType,jdbcType=VARCHAR},
+        ID = #{row.id,jdbcType=LONGVARCHAR},
+        PROPERTIES = #{row.properties,jdbcType=CLOB}
+        <if test="example != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        update KEY_MAPPER_CONFIG
+        set NAME = #{row.name,jdbcType=VARCHAR},
+        CREATED_TIME = #{row.createdTime,jdbcType=TIMESTAMP},
+        KEY_MAPPER_TYPE = #{row.keyMapperType,jdbcType=VARCHAR}
+        <if test="example != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <select id="selectByExampleWithLock" parameterType="com.ssc.ssgm.fx.ifx.integration.curd.model.KeyMapperConfigExample" resultMap="BaseResultMap">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from KEY_MAPPER_CONFIG
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        for update
+    </select>
+</mapper>

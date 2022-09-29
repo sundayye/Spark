@@ -1,0 +1,6 @@
+#listener
+#org.springframework.context.ApplicationListener=\
+#com.ssc.fx.component.framework.SpringBootApplicationListener
+#auto config
+#org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.ssc.ssgm.fx.ifx.integration.beans.ComponentAutoConfigure

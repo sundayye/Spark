@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="application_name" value="${application_name:-integration}" />
+
+    <property name="application_env" value="${application_env:-local}" />
+
+    <property name="LOG_DIR" value="${log_dir:-./}" />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} [%thread]=%-5level %logger{36}.%M - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="FILE-ENGINE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/${application_name}.${application_env}.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} [%thread]=%-5level %logger{36}.%M - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/archived/${application_name}.${application_env}_%d{dd-MM-yyyy}.%i.log.gz
+            </fileNamePattern>
+            <maxHistory>20</maxHistory>
+            <maxFileSize>500MB</maxFileSize>
+            <totalSizeCap>6GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="com.zaxxer.hikari.HikariConfig" level="debug" />
+
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE-ENGINE" />
+    </root>
+</configuration>
+

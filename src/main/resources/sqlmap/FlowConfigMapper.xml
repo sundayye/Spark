@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssc.ssgm.fx.ifx.integration.curd.mapper.FlowConfigMapper">
+    <resultMap id="BaseResultMap" type="com.ssc.ssgm.fx.ifx.integration.curd.model.FlowConfigEntity">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        <result column="NAME" jdbcType="VARCHAR" property="name" />
+        <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
+        <result column="INBOUND_CONFIG_ID" jdbcType="NUMERIC" property="inboundConfigId" />
+        <result column="PARSER_TYPE" jdbcType="VARCHAR" property="parserType" />
+        <result column="KEY_MAPPER_ID" jdbcType="NUMERIC" property="keyMapperId" />
+        <result column="FORMATTER_ID" jdbcType="NUMERIC" property="formatterId" />
+        <result column="OUTBOUND_CONFIG_ID" jdbcType="NUMERIC" property="outboundConfigId" />
+        <result column="TRANSACTION_TYPE" jdbcType="VARCHAR" property="transactionType" />
+        <result column="FLOW_STATUS" jdbcType="VARCHAR" property="flowStatus" />
+        <result column="FLOW_TYPE" jdbcType="VARCHAR" property="flowType" />
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.ssc.ssgm.fx.ifx.integration.curd.model.FlowConfigEntity">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        <result column="ID" jdbcType="LONGVARCHAR" property="id" />
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        NAME, CREATED_TIME, INBOUND_CONFIG_ID, PARSER_TYPE, KEY_MAPPER_ID, FORMATTER_ID,
+        OUTBOUND_CONFIG_ID, TRANSACTION_TYPE, FLOW_STATUS, FLOW_TYPE
+    </sql>
+    <sql id="Blob_Column_List">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        ID
+    </sql>
+    <select id="selectByExampleWithBLOBs" parameterType="com.ssc.ssgm.fx.ifx.integration.curd.model.FlowConfigExample" resultMap="ResultMapWithBLOBs">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        ,
+        <include refid="Blob_Column_List" />
+        from FLOW_CONFIG
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByExample" parameterType="com.ssc.ssgm.fx.ifx.integration.curd.model.FlowConfigExample" resultMap="BaseResultMap">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from FLOW_CONFIG
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <delete id="deleteByExample" parameterType="com.ssc.ssgm.fx.ifx.integration.curd.model.FlowConfigExample">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        delete from FLOW_CONFIG
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.ssc.ssgm.fx.ifx.integration.curd.model.FlowConfigEntity" useGeneratedKeys="true">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        insert into FLOW_CONFIG (ID,NAME, CREATED_TIME, INBOUND_CONFIG_ID,
+        PARSER_TYPE, KEY_MAPPER_ID, FORMATTER_ID,
+        OUTBOUND_CONFIG_ID, TRANSACTION_TYPE, FLOW_STATUS,
+        FLOW_TYPE)
+        values (#{id,jdbcType=NUMERIC},#{name,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{inboundConfigId,jdbcType=NUMERIC},
+        #{parserType,jdbcType=VARCHAR}, #{keyMapperId,jdbcType=NUMERIC}, #{formatterId,jdbcType=NUMERIC},
+        #{outboundConfigId,jdbcType=NUMERIC}, #{transactionType,jdbcType=VARCHAR}, #{flowStatus,jdbcType=VARCHAR},
+        #{flowType,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="com.ssc.ssgm.fx.ifx.integration.curd.model.FlowConfigEntity" useGeneratedKeys="true">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        insert into FLOW_CONFIG
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                NAME,
+            </if>
+            <if test="createdTime != null">
+                CREATED_TIME,
+            </if>
+            <if test="inboundConfigId != null">
+                INBOUND_CONFIG_ID,
+            </if>
+            <if test="parserType != null">
+                PARSER_TYPE,
+            </if>
+            <if test="keyMapperId != null">
+                KEY_MAPPER_ID,
+            </if>
+            <if test="formatterId != null">
+                FORMATTER_ID,
+            </if>
+            <if test="outboundConfigId != null">
+                OUTBOUND_CONFIG_ID,
+            </if>
+            <if test="transactionType != null">
+                TRANSACTION_TYPE,
+            </if>
+            <if test="flowStatus != null">
+                FLOW_STATUS,
+            </if>
+            <if test="flowType != null">
+                FLOW_TYPE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="createdTime != null">
+                #{createdTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="inboundConfigId != null">
+                #{inboundConfigId,jdbcType=NUMERIC},
+            </if>
+            <if test="parserType != null">
+                #{parserType,jdbcType=VARCHAR},
+            </if>
+            <if test="keyMapperId != null">
+                #{keyMapperId,jdbcType=NUMERIC},
+            </if>
+            <if test="formatterId != null">
+                #{formatterId,jdbcType=NUMERIC},
+            </if>
+            <if test="outboundConfigId != null">
+                #{outboundConfigId,jdbcType=NUMERIC},
+            </if>
+            <if test="transactionType != null">
+                #{transactionType,jdbcType=VARCHAR},
+            </if>
+            <if test="flowStatus != null">
+                #{flowStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="flowType != null">
+                #{flowType,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.ssc.ssgm.fx.ifx.integration.curd.model.FlowConfigExample" resultType="java.lang.Long">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        select count(*) from FLOW_CONFIG
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        update FLOW_CONFIG
+        <set>
+            <if test="row.name != null">
+                NAME = #{row.name,jdbcType=VARCHAR},
+            </if>
+            <if test="row.createdTime != null">
+                CREATED_TIME = #{row.createdTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="row.inboundConfigId != null">
+                INBOUND_CONFIG_ID = #{row.inboundConfigId,jdbcType=NUMERIC},
+            </if>
+            <if test="row.parserType != null">
+                PARSER_TYPE = #{row.parserType,jdbcType=VARCHAR},
+            </if>
+            <if test="row.keyMapperId != null">
+                KEY_MAPPER_ID = #{row.keyMapperId,jdbcType=NUMERIC},
+            </if>
+            <if test="row.formatterId != null">
+                FORMATTER_ID = #{row.formatterId,jdbcType=NUMERIC},
+            </if>
+            <if test="row.outboundConfigId != null">
+                OUTBOUND_CONFIG_ID = #{row.outboundConfigId,jdbcType=NUMERIC},
+            </if>
+            <if test="row.transactionType != null">
+                TRANSACTION_TYPE = #{row.transactionType,jdbcType=VARCHAR},
+            </if>
+            <if test="row.flowStatus != null">
+                FLOW_STATUS = #{row.flowStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="row.flowType != null">
+                FLOW_TYPE = #{row.flowType,jdbcType=VARCHAR},
+            </if>
+            <if test="row.id != null">
+                ID = #{row.id,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        <if test="example != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExampleWithBLOBs" parameterType="map">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        update FLOW_CONFIG
+        set NAME = #{row.name,jdbcType=VARCHAR},
+        CREATED_TIME = #{row.createdTime,jdbcType=TIMESTAMP},
+        INBOUND_CONFIG_ID = #{row.inboundConfigId,jdbcType=NUMERIC},
+        PARSER_TYPE = #{row.parserType,jdbcType=VARCHAR},
+        KEY_MAPPER_ID = #{row.keyMapperId,jdbcType=NUMERIC},
+        FORMATTER_ID = #{row.formatterId,jdbcType=NUMERIC},
+        OUTBOUND_CONFIG_ID = #{row.outboundConfigId,jdbcType=NUMERIC},
+        TRANSACTION_TYPE = #{row.transactionType,jdbcType=VARCHAR},
+        FLOW_STATUS = #{row.flowStatus,jdbcType=VARCHAR},
+        FLOW_TYPE = #{row.flowType,jdbcType=VARCHAR},
+        ID = #{row.id,jdbcType=LONGVARCHAR}
+        <if test="example != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        update FLOW_CONFIG
+        set NAME = #{row.name,jdbcType=VARCHAR},
+        CREATED_TIME = #{row.createdTime,jdbcType=TIMESTAMP},
+        INBOUND_CONFIG_ID = #{row.inboundConfigId,jdbcType=NUMERIC},
+        PARSER_TYPE = #{row.parserType,jdbcType=VARCHAR},
+        KEY_MAPPER_ID = #{row.keyMapperId,jdbcType=NUMERIC},
+        FORMATTER_ID = #{row.formatterId,jdbcType=NUMERIC},
+        OUTBOUND_CONFIG_ID = #{row.outboundConfigId,jdbcType=NUMERIC},
+        TRANSACTION_TYPE = #{row.transactionType,jdbcType=VARCHAR},
+        FLOW_STATUS = #{row.flowStatus,jdbcType=VARCHAR},
+        FLOW_TYPE = #{row.flowType,jdbcType=VARCHAR}
+        <if test="example != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <select id="selectByExampleWithLock" parameterType="com.ssc.ssgm.fx.ifx.integration.curd.model.FlowConfigExample" resultMap="BaseResultMap">
+        <!-- @mbg.generated: generated automatically, do not modify! -->
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from FLOW_CONFIG
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        for update
+    </select>
+</mapper>
