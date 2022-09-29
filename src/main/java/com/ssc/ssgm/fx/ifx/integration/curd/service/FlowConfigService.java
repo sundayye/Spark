@@ -30,9 +30,9 @@ public class FlowConfigService {
         return collect;
     }
 
-    public void addConfig(FlowConfig flowConfig) {
+    public int addConfig(FlowConfig flowConfig) {
         FlowConfigEntity entity = new FlowConfigEntity();
         BeanUtils.copyProperties(flowConfig, entity);
-        flowConfigMapper.insert(entity);
+        return flowConfigMapper.insert(entity);
     }
 }

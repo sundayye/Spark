@@ -45,7 +45,7 @@ public class InboundController {
 
     @ApiOperation("list")
     @GetMapping("/list")
-    public Response<List<InboundConfig>> list() {
+    public Response<java.lang.Object> list() {
         List<InboundConfig> inboundConfigList = inboundConfigService.loadAll();
         inboundConfigList.stream().forEach(e -> {
             HackthonContext.inboundMap.put(e.getName(), e);
@@ -57,7 +57,7 @@ public class InboundController {
     @PostMapping("/disable")
     public Response<?> disable(@RequestParam("name") String name) {
         if (inboundConfigService.disableConfig(name) != 1) {
-            log.error("Disable config failed. No Inbound config found with Name： {} ." ,name);
+            log.error("Disable config failed. No Inbound config found with Name .");
             return Response.fail();
         }
         Map<String, InboundConfig> tmpMap = new HashedMap(HackthonContext.inboundMap);

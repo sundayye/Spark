@@ -8,6 +8,7 @@ import com.ssc.ssgm.fx.ifx.integration.core.outbound.OutBound;
 import com.ssc.ssgm.fx.ifx.integration.core.parser.ParserEnum;
 import com.ssc.ssgm.fx.ifx.integration.core.transformer.Transformer;
 import com.ssc.ssgm.fx.ifx.integration.curd.service.*;
+import lombok.Data;
 import lombok.val;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
@@ -23,6 +24,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 @Service
+@Data
 public class FlowContext implements ApplicationContextAware, InitializingBean {
 
     ApplicationContext ac;
@@ -78,9 +80,9 @@ public class FlowContext implements ApplicationContextAware, InitializingBean {
     public List<Flow> loadFlows() {
 
         // load  config
-        Map<String, FlowConfig> flowConfigs = this.getFlowConfigs();
-        Map<String, FormatterConfig> formatterConfigs = this.getFormatterConfigs();
-        Map<String, KeyMapperConfig> keyMapperConfigs = this.getKeyMapperConfigs();
+        Map<String, FlowConfig> flowConfigs = this.getAllFlowConfigs();
+        Map<String, FormatterConfig> formatterConfigs = this.getFlowFormatterConfigs();
+        Map<String, KeyMapperConfig> keyMapperConfigs = this.getFlowKeyMapperConfigs();
         Map<String, InboundConfig> sourceInConfigs = this.getSourceInConfigs();
         Map<String, OutboundConfig> sourceOutConfigs = this.getSourceOutConfigs();
         flowConfigs.values().forEach(e -> {
@@ -140,13 +142,13 @@ public class FlowContext implements ApplicationContextAware, InitializingBean {
         return map;
     }
 
-    private Map<String, FlowConfig> getFlowConfigs() {
+    private Map<String, FlowConfig> getAllFlowConfigs() {
         List<FlowConfig> configs = this.flowConfigService.loadAll();
         Map<String, FlowConfig> map = configs.stream().collect(Collectors.toMap(e -> e.getId(), e -> e));
         return map;
     }
 
-    private Map<String, KeyMapperConfig> getKeyMapperConfigs() {
+    private Map<String, KeyMapperConfig> getFlowKeyMapperConfigs() {
         List<KeyMapperConfig> configs = this.keyMapperConfigService.loadAll();
         Map<String, KeyMapperConfig> map = configs.stream().collect(Collectors.toMap(e -> e.getId(), e -> e));
         return map;
@@ -158,7 +160,7 @@ public class FlowContext implements ApplicationContextAware, InitializingBean {
         return map;
     }
 
-    private Map<String, FormatterConfig> getFormatterConfigs() {
+    private Map<String, FormatterConfig> getFlowFormatterConfigs() {
         List<FormatterConfig> configs = this.formatterConfigService.loadAll();
         Map<String, FormatterConfig> map = configs.stream().collect(Collectors.toMap(e -> e.getId(), e -> e));
         return map;
