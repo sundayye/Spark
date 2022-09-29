@@ -38,7 +38,7 @@ public class OutboundConfigService {
 
     }
 
-    public int disableConfig(String name) {
-        return outboundConfigMapper.deleteByName(name);
+    public int disableConfig(Long id) {
+        return outboundConfigMapper.deleteById(Long.toString(id));
     }
 }

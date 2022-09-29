@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -71,22 +72,14 @@ public class InboundController {
 
     @ApiOperation("create")
     @PostMapping("/create")
-    public Response<?> create(@RequestParam("file") MultipartFile file,
-                              @RequestParam("inboundType") String inboundType,
-                              HttpServletRequest request) {
-        InboundConfig config = new InboundConfig();
-        config.setName(file.getName());
-        config.setInboundType(SourceInTypeEnum.valueOf(inboundType));
-        try {
-            config.setProperties(JsonUtil.byteToJson(file.getBytes()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if(inboundConfigService.addConfig(config) !=1){
+    public Response<?> create(@RequestParam("inboundConfig") InboundConfig inboundConfig) {
+        String id = UUID.randomUUID().toString().replace("-","");
+        inboundConfig.setId(id);
+        if(inboundConfigService.addConfig(inboundConfig) !=1){
             log.error("Inbound config creation failed.");
             return Response.fail();
         }
-        HackthonContext.inboundMap.put(config.getName(), config);
+        flowContext.addSourceInConfig(inboundConfig);
         return Response.success();
     }
 

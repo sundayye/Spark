@@ -5,6 +5,7 @@ import com.ssc.ssgm.fx.ifx.integration.api.HackthonContext;
 import com.ssc.ssgm.fx.ifx.integration.common.Response;
 import com.ssc.ssgm.fx.ifx.integration.core.config.InboundConfig;
 import com.ssc.ssgm.fx.ifx.integration.core.config.OutboundConfig;
+import com.ssc.ssgm.fx.ifx.integration.core.flow.FlowContext;
 import com.ssc.ssgm.fx.ifx.integration.core.outbound.SourceOutTypeEnum;
 import com.ssc.ssgm.fx.ifx.integration.curd.service.OutboundConfigService;
 import com.ssc.ssgm.fx.ifx.integration.util.JsonUtil;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,62 +35,51 @@ public class OutboundController {
     @Autowired
     OutboundConfigService outboundConfigService;
 
+    @Autowired
+    FlowContext flowContext;
+
     @ApiOperation("get_type")
     @GetMapping("/get_types")
-    public Response<List<String>> getTypes() {
+    public Response<List<KeyValue>> getTypes() {
         List<SourceOutTypeEnum> typeEunmList = Arrays.asList(SourceOutTypeEnum.values());
-        List<String> typeList = typeEunmList.stream().map(e ->{
-            return e.toString();
+        List<KeyValue> types = typeEunmList.stream().map(e ->{
+            KeyValue keyValue = new KeyValue();
+            keyValue.setLabel(e.toString());
+            keyValue.setName(e.toString());
+            return keyValue;
         } ).collect(Collectors.toList());
-        return Response.success(typeList);
+        return Response.success(types);
     }
 
     @ApiOperation("list")
     @GetMapping("/list")
     public Response<List<OutboundConfig>> list() {
         List<OutboundConfig> outboundConfigs = outboundConfigService.loadAll();
-        outboundConfigs.stream().forEach(e -> {
-            HackthonContext.outboundMap.put(e.getName(), e);
-        });
+        flowContext.setOutboundConfigs(outboundConfigs);
         return Response.success(outboundConfigs);
     }
 
     @ApiOperation("disable")
     @PostMapping("/disable")
-    public Response<?> disable(@RequestParam("name") String name) {
-        if (outboundConfigService.disableConfig(name) != 1) {
-            log.error("Disable config failed. No Inbound config found with Name： {} ." ,name);
+    public Response<?> disable(@RequestParam("id") Long id) {
+        if (outboundConfigService.disableConfig(id) != 1) {
+            log.error("Disable config failed. No Inbound config found with ID： {} ." ,id);
             return Response.fail();
         }
-        Map<String, OutboundConfig> tmpMap = new HashedMap(HackthonContext.outboundMap);
-        tmpMap.forEach((key,value)->{
-            OutboundConfig outboundConfig = value;
-            if (outboundConfig.getName().equals(name)) {
-                HackthonContext.outboundMap.remove(key);
-            }
-
-        });
+        flowContext.removeSourceOutConfig(Long.toString(id));
         return Response.success();
     }
 
     @ApiOperation("create")
     @PostMapping("/create")
-    public Response<?> create(@RequestParam("file") MultipartFile file,
-                              @RequestParam("outboundType") String outboundType,
-                              HttpServletRequest request) {
-        OutboundConfig config = new OutboundConfig();
-        config.setName(file.getName());
-        config.setOutboundType(SourceOutTypeEnum.valueOf(outboundType));
-        try {
-            config.setProperties(JsonUtil.byteToJson(file.getBytes()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if(outboundConfigService.addConfig(config) !=1){
+    public Response<?> create(@RequestParam("outboundConfig") OutboundConfig outboundConfig) {
+        String id = UUID.randomUUID().toString().replace("-","");
+        outboundConfig.setId(id);
+        if(outboundConfigService.addConfig(outboundConfig) !=1){
             log.error("Outbound config creation failed.");
             return Response.fail();
         }
-        HackthonContext.outboundMap.put(config.getName(), config);
+        flowContext.addSourceOutConfig(outboundConfig);
         return Response.success();
     }
 
